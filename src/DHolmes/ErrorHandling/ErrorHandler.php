@@ -14,10 +14,13 @@ class ErrorHandler
     
     /** @var ExceptionResponder */
     private $responder;
+    /** @var boolean */
+    private $registered;
     
     /** @param ExceptionResponder $responder */
     public function __construct(ExceptionResponder $responder = null)
     {
+        $this->registered = false;
         $this->responder = $responder;
     }
     
@@ -29,6 +32,8 @@ class ErrorHandler
     
     public function register()
     {
+        $this->registered = true;
+    
         set_error_handler(array($this, 'handleError'));
         register_shutdown_function(array($this, 'handleShutdown'));
         set_exception_handler(array($this, 'handleException'));
@@ -99,6 +104,14 @@ class ErrorHandler
         register_shutdown_function(array($this, 'nullHandler'));
         set_error_handler(array($this, 'nullHandler'));
         set_exception_handler(array($this, 'nullHandler'));
+        
+        $this->registered = false;
+    }
+    
+    /** @return boolean */
+    public function isRegistered()
+    {
+        return $this->registered;
     }
     
     /**

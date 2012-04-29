@@ -19,16 +19,26 @@ class SymfonyKernelErrorHandler extends ErrorHandler
     public function listenToKernelErrors(EventDispatcherInterface $dispatcher)
     {
         $this->listeningDispatchers[] = $dispatcher;
+        if ($this->isRegistered())
+        {
+            $this->addDispatcherHandler($dispatcher);
+        }
+    }
+    
+    /** @param EventDispatcherInterface $dispatcher */
+    private function addDispatcherHandler(EventDispatcherInterface $dispatcher)
+    {
+        $kernelExceptionHandler = array($this, 'handleKernelException');
+        $dispatcher->addListener(KernelEvents::EXCEPTION, $kernelExceptionHandler);
     }
     
     public function register()
     {
         parent::register();
         
-        $kernelExceptionHandler = array($this, 'handleKernelException');
         foreach ($this->listeningDispatchers as $dispatcher)
         {
-            $dispatcher->addListener(KernelEvents::EXCEPTION, $kernelExceptionHandler);
+            $this->addDispatcherHandler($dispatcher);
         }
     }
     

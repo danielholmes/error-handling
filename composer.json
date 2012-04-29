@@ -1,0 +1,20 @@
+{
+    "name": "dholmes/error-handling",
+    "type": "library",
+    "description": "Simple, comprehensive error handling for the 3 PHP error types",
+    "keywords": ["error"],
+    "authors": [
+        {
+            "name": "Daniel Holmes",
+            "email": "daniel@creatio.com.au"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "DHolmes\\ErrorHandling": "src/"
+        }
+    }
+}

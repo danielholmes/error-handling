@@ -1,0 +1,3 @@
+services:
+    errorHandling.testController:
+        class: DHolmes\ErrorHandling\Symfony\TestController

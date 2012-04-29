@@ -1,0 +1,24 @@
+errorTestNotice:
+    pattern:  /notice
+    defaults: { _controller: errorHandling.testController:noticeAction }
+    requirements: { method: _GET }
+
+errorTestWarning:
+    pattern:  /warning
+    defaults: { _controller: errorHandling.testController:warningAction }
+    requirements: { method: _GET }
+
+errorTestException:
+    pattern:  /exception
+    defaults: { _controller: errorHandling.testController:exceptionAction }
+    requirements: { method: _GET }
+
+errorTestFatal:
+    pattern:  /fatal
+    defaults: { _controller: errorHandling.testController:fatalAction }
+    requirements: { method: _GET }
+
+errorTestError:
+    pattern:  /error
+    defaults: { _controller: errorHandling.testController:errorAction }
+    requirements: { method: _GET }

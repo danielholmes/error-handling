@@ -65,6 +65,7 @@ class NativeMailExceptionResponder implements ExceptionResponder
         $content = (string)$e . "\n";
         $content .= 'SERVER: ' . print_r($_SERVER, true) . "\n";
         $content .= 'POST: ' . print_r($_POST, true) . "\n";
+        $content .= 'FILES: ' . print_r($_FILES, true) . "\n";
 
         $url = '';
         if (isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']))

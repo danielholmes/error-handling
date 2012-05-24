@@ -30,6 +30,11 @@ class ErrorHandler
         $this->responder = $responder;
     }
     
+    public function clearResponder()
+    {
+        $this->responder = null;
+    }
+    
     public function register()
     {
         $this->registered = true;

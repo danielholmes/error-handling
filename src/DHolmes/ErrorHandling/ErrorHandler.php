@@ -20,7 +20,7 @@ class ErrorHandler
     public function __construct()
     {
         $this->registered = false;
-        $this->setResponders(new DisplayErrorResponder());
+        $this->setResponders(array(new DisplayErrorResponder()));
     }
     
     /** @param array $responders */

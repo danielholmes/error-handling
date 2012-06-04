@@ -20,8 +20,13 @@ class ErrorHandler
     public function __construct()
     {
         $this->registered = false;
-        $this->responders = array();
-        $this->appendResponder(new DisplayErrorResponder());
+        $this->setResponders(new DisplayErrorResponder());
+    }
+    
+    /** @param array $responders */
+    public function setResponders(array $responders)
+    {
+        $this->responders = $responders;
     }
     
     /** @param ExceptionResponder $responder */
@@ -126,5 +131,21 @@ class ErrorHandler
     public function nullHandler()
     {
         
+    }
+    
+    /**
+     * @param array $responders
+     * @return ErrorHandler
+     */
+    public static function registerNew(array $responders = null)
+    {
+        $handler = new static();
+        if ($responders !== null)
+        {
+            $handler->setResponders($responders);
+        }
+        $handler->register();
+        
+        return $handler;
     }
 }

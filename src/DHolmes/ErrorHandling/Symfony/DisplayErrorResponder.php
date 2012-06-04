@@ -19,7 +19,8 @@ class DisplayErrorResponder implements ExceptionResponder
             }
             else
             {
-                $response = ExceptionHandler::createResponse($e);
+                $handler = new ExceptionHandler();
+                $response = $handler->createResponse($e);
                 echo $response->getContent();
             }
         }

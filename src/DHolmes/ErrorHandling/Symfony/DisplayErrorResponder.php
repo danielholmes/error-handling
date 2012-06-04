@@ -3,6 +3,7 @@
 namespace DHolmes\ErrorHandling\Symfony;
 
 use Exception;
+use DHolmes\ErrorHandling\ExceptionResponder;
 use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
 
 class DisplayErrorResponder implements ExceptionResponder

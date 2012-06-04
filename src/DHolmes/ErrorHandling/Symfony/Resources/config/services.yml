@@ -1,3 +1,4 @@
 services:
     errorHandling.testController:
         class: DHolmes\ErrorHandling\Symfony\TestController
+        arguments: ["@router"]

@@ -1,24 +1,29 @@
+errorTestHome:
+    pattern:  /index
+    defaults: { _controller: errorHandling.testController:indexAction }
+    requirements: { _method: GET }
+
 errorTestNotice:
     pattern:  /notice
     defaults: { _controller: errorHandling.testController:noticeAction }
-    requirements: { method: _GET }
+    requirements: { _method: GET|POST }
 
 errorTestWarning:
     pattern:  /warning
     defaults: { _controller: errorHandling.testController:warningAction }
-    requirements: { method: _GET }
+    requirements: { _method: GET|POST }
 
 errorTestException:
     pattern:  /exception
     defaults: { _controller: errorHandling.testController:exceptionAction }
-    requirements: { method: _GET }
+    requirements: { _method: GET|POST }
 
 errorTestFatal:
     pattern:  /fatal
     defaults: { _controller: errorHandling.testController:fatalAction }
-    requirements: { method: _GET }
+    requirements: { _method: GET|POST }
 
 errorTestError:
     pattern:  /error
     defaults: { _controller: errorHandling.testController:errorAction }
-    requirements: { method: _GET }
+    requirements: { _method: GET|POST }

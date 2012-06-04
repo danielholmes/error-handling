@@ -12,27 +12,27 @@ class ErrorHandler
         E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING
     );
     
-    /** @var ExceptionResponder */
-    private $responder;
+    /** @var array */
+    private $responders;
     /** @var boolean */
     private $registered;
     
-    /** @param ExceptionResponder $responder */
-    public function __construct(ExceptionResponder $responder = null)
+    public function __construct()
     {
         $this->registered = false;
-        $this->responder = $responder;
+        $this->responders = array();
+        $this->appendResponder(new DisplayErrorResponder());
     }
     
     /** @param ExceptionResponder $responder */
-    public function setResponder(ExceptionResponder $responder)
+    public function appendResponder(ExceptionResponder $responder)
     {
-        $this->responder = $responder;
+        $this->responders[] = $responder;
     }
     
-    public function clearResponder()
+    public function popResponder()
     {
-        $this->responder = null;
+        return array_pop($this->responders);
     }
     
     public function register()
@@ -54,7 +54,8 @@ class ErrorHandler
      */
     public function handleError($level, $message, $file, $line, $context)
     {
-        if (error_reporting() & $level) {
+        if (error_reporting() & $level)
+        {
             $e = new ErrorException($message, 0, $level, $file, $line);
             $this->respondToException($e);
             throw $e;
@@ -95,9 +96,9 @@ class ErrorHandler
     protected function respondToException(Exception $e)
     {
         $this->unregister();
-        if ($this->responder !== null)
+        foreach ($this->responders as $responder)
         {
-            $this->responder->respond($e);
+            $responder->respond($e);
         }
     }
     
@@ -125,17 +126,5 @@ class ErrorHandler
     public function nullHandler()
     {
         
-    }
-    
-    /**
-     * @param ExceptionResponder $responder
-     * @return ErrorHandler
-     */
-    public static function registerNew(ExceptionResponder $responder = null)
-    {
-        $handler = new static($responder);
-        $handler->register();
-        
-        return $handler;
     }
 }

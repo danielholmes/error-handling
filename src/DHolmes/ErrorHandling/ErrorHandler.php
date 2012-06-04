@@ -29,6 +29,12 @@ class ErrorHandler
         $this->responders = $responders;
     }
     
+    /** @param array $responders */
+    public function appendResponders(array $responders)
+    {
+        $this->responders = array_merge($this->responders, $responders);
+    }
+    
     /** @param ExceptionResponder $responder */
     public function appendResponder(ExceptionResponder $responder)
     {
@@ -137,13 +143,10 @@ class ErrorHandler
      * @param array $responders
      * @return ErrorHandler
      */
-    public static function registerNew(array $responders = null)
+    public static function registerNew(array $responders = array())
     {
         $handler = new static();
-        if ($responders !== null)
-        {
-            $handler->setResponders($responders);
-        }
+        $handler->appendResponders($responders);
         $handler->register();
         
         return $handler;

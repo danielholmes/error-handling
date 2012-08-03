@@ -27,3 +27,13 @@ errorTestError:
     pattern:  /error
     defaults: { _controller: errorHandling.testController:errorAction }
     requirements: { _method: GET|POST }
+
+errorTestLogCrit:
+    pattern:  /log-crit
+    defaults: { _controller: errorHandling.testController:logCritAction }
+    requirements: { _method: GET|POST }
+    
+errorTestLogEmerg:
+    pattern:  /log-emerg
+    defaults: { _controller: errorHandling.testController:logEmergAction }
+    requirements: { _method: GET|POST }

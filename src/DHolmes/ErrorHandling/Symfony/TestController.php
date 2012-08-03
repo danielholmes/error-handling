@@ -4,22 +4,29 @@ namespace DHolmes\ErrorHandling\Symfony;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class TestController
 {
     /** @var UrlGeneratorInterface */
     private $urlGenerator;
+    /** @var LoggerInterface */
+    private $logger;
     
-    /** @param UrlGeneratorInterface $urlGenerator */
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    /**
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param LoggerInterface $logger 
+     */
+    public function __construct(UrlGeneratorInterface $urlGenerator, LoggerInterface $logger)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->logger = $logger;
     }
     
     /** @return Response */
     public function indexAction()
     {
-        $types = array('notice', 'warning', 'exception', 'fatal', 'error');
+        $types = array('notice', 'warning', 'exception', 'fatal', 'error', 'logEmerg', 'logCrit');
         $content = '<h3>Error Testing</h3>';
         $content .= '<ul>';
         foreach ($types as $type)
@@ -76,5 +83,21 @@ class TestController
         $var = $arr['unknown'];
         
         return new Response('Notice Test');
+    }
+    
+    /** @return Response */
+    public function logCritAction()
+    {
+        $message = 'Testing Crit Message';
+        $this->logger->crit($message);
+        return new Response('Logged crit: ' . $message);
+    }
+    
+    /** @return Response */
+    public function logEmergAction()
+    {
+        $message = 'Testing Emerg Message';
+        $this->logger->emerg($message);
+        return new Response('Logged emerg: ' . $message);
     }
 }

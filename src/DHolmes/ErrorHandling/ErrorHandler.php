@@ -46,6 +46,11 @@ class ErrorHandler
         return array_pop($this->responders);
     }
     
+    public function clearResponders()
+    {
+        $this->responders = array();
+    }
+    
     public function register()
     {
         $this->registered = true;

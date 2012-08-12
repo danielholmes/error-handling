@@ -2,9 +2,6 @@
 
 namespace DHolmes\ErrorHandling;
 
-use Exception;
-use ErrorException;
-
 class ErrorHandler
 {
     /** @var array */
@@ -20,13 +17,22 @@ class ErrorHandler
     public function __construct()
     {
         $this->registered = false;
-        $this->setResponders(array(new DisplayErrorResponder()));
+        $this->setResponders(array(new SimpleDisplayErrorResponder()));
     }
     
     /** @param array $responders */
     public function setResponders(array $responders)
     {
         $this->responders = $responders;
+    }
+    
+    /** @return array */
+    private function getNonDisplayResponders()
+    {
+        return array_values(array_filter($this->responders, function(ExceptionResponder $responder)
+        {
+            return !($responder instanceof DisplayErrorResponder);
+        }));
     }
     
     /** @param array $responders */
@@ -72,7 +78,7 @@ class ErrorHandler
     {
         if (error_reporting() & $level)
         {
-            $e = new ErrorException($message, 0, $level, $file, $line);
+            $e = new \ErrorException($message, 0, $level, $file, $line);
             $this->respondToException($e);
             throw $e;
         }
@@ -80,10 +86,19 @@ class ErrorHandler
         return false;
     }
     
-    /** @param Exception $exception */
-    public function handleException(Exception $exception)
+    /** @param \Exception $exception */
+    public function handleException(\Exception $exception)
     {
         $this->respondToException($exception);
+    }
+    
+    /** @param \Exception $exception */
+    public function handleExceptionWithoutDisplayResponders(\Exception $exception)
+    {
+        foreach ($this->getNonDisplayResponders() as $responder)
+        {
+            $responder->respond($exception);
+        }
     }
     
     /**
@@ -102,16 +117,22 @@ class ErrorHandler
             $this->isNonErrorHandlerType($lastError['type']))
         {
             // Can't send to handle because cant throw and handle exception during shutdown
-            $e = new ErrorException($lastError['message'], 0, $lastError['type'], 
+            $e = new \ErrorException($lastError['message'], 0, $lastError['type'], 
                     $lastError['file'], $lastError['line']);
-            $this->respondToException($e);
+            $this->respondToSystemException($e);
         }
     }
     
-    /** @param Exception $e */
-    protected function respondToException(Exception $e)
+    /** @param \Exception $e */
+    protected function respondToSystemException(\Exception $e)
     {
         $this->unregister();
+        $this->respondToException($e);
+    }
+    
+    /** @param \Exception $e */
+    private function respondToException(\Exception $e)
+    {
         foreach ($this->responders as $responder)
         {
             $responder->respond($e);

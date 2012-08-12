@@ -50,7 +50,7 @@ class SymfonyKernelErrorHandler extends ErrorHandler
             !($exception instanceof AccessDeniedException) &&
             !($exception instanceof AuthenticationCredentialsNotFoundException))
         {
-            $this->respondToException($exception);
+            $this->respondToSystemException($exception);
         }
     }
     

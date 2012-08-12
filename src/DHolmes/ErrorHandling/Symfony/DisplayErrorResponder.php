@@ -2,14 +2,14 @@
 
 namespace DHolmes\ErrorHandling\Symfony;
 
-use Exception;
 use DHolmes\ErrorHandling\ExceptionResponder;
 use Symfony\Component\HttpKernel\Debug\ExceptionHandler;
+use DHolmes\ErrorHandling\DisplayErrorResponder as CoreDisplayErrorResponder;
 
-class DisplayErrorResponder implements ExceptionResponder
+class DisplayErrorResponder implements CoreDisplayErrorResponder
 {
     /** @param Exception $e */
-    public function respond(Exception $e)
+    public function respond(\Exception $e)
     {
         if (ini_get('display_errors'))
         {

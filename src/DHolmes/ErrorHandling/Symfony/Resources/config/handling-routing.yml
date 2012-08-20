@@ -1,4 +1,3 @@
 errorHandlingJavaScript:
     pattern:  /log-js
     defaults: { _controller: errorHandling.handlingController:logErrorAction }
-    requirements: { _method: GET }

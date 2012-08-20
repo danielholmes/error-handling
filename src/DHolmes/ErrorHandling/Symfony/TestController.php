@@ -46,7 +46,7 @@ class TestController
                                 </form>', $url);
             $content .= '</li>';
         }
-        $content .= '<li><a href="javascript:unknownFunc();return false;">JavaScript Error</a></li>';
+        $content .= '<li><a href="javascript:unknownFunc();return false;">JavaScript Error</a> (Warning, this setup can be quite different to your main site setup)</li>';
         $content .= '</ul>';
         $content .= '</body</html>';
         return new Response($content);

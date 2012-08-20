@@ -9,8 +9,8 @@ class JavaScriptHandlerController
     /** @param Request $request */
     public function logErrorAction(Request $request)
     {
-        throw new JavaScriptErrorException($request->request->get('message'),
-                    $request->request->get('scriptUrl'), $request->request->get('lineNumber'),
-                    $request->request->get('cookie'), $request->request->get('url'));
+        throw new JavaScriptErrorException($request->query->get('message'),
+                    $request->query->get('scriptUrl'), $request->query->get('lineNumber'),
+                    $request->query->get('cookie'), $request->query->get('url'));
     }
 }

@@ -1,8 +1,8 @@
 var DHolmes = DHolmes||{};
 DHolmes.ErrorHandling = DHolmes.ErrorHandling||{};
 DHolmes.ErrorHandling.createNotifyUrlErrorHandler = function(endPointUrl) {
-	return function(message, url, lineNumber) {
-		//transform errors
+    return function(message, url, lineNumber) {
+        //transform errors
         if (typeof(message) === 'object' && message.srcElement && message.target) {
             if (message.srcElement == '[object HTMLScriptElement]' && message.target == '[object HTMLScriptElement]') {
                 message = 'Error loading script';
@@ -24,17 +24,17 @@ DHolmes.ErrorHandling.createNotifyUrlErrorHandler = function(endPointUrl) {
         //report errors
         window.onerror = function(){};
         var params = {
-			"message": message,
-			"scriptUrl": url,
-			"lineNumber": lineNumber,
-			"cookie": document.cookie,
-			"url": document.URL,
-			"noCache": (new Date())
-		};
-		var queryComps = new Array();
-		for (var key in params) {
-			queryComps.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
-		}
-		(new Image()).src = endPointUrl + "?" + queryComps.join("&");
-	};
+            "message": message,
+            "scriptUrl": url,
+            "lineNumber": lineNumber,
+            "cookie": document.cookie,
+            "url": document.URL,
+            "noCache": (new Date())
+        };
+        var queryComps = new Array();
+        for (var key in params) {
+            queryComps.push(encodeURIComponent(key) + "=" + encodeURIComponent(params[key]));
+        }
+        (new Image()).src = endPointUrl + "?" + queryComps.join("&");
+    };
 };

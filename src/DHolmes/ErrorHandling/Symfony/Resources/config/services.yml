@@ -2,3 +2,6 @@ services:
     errorHandling.testController:
         class: DHolmes\ErrorHandling\Symfony\TestController
         arguments: ["@router", "@logger"]
+    
+    errorHandling.handlingController:
+        class: DHolmes\ErrorHandling\Symfony\JavaScriptHandlerController

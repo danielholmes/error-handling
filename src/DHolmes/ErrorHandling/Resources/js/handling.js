@@ -1,6 +1,6 @@
 var DHolmes = DHolmes||{};
 DHolmes.ErrorHandling = DHolmes.ErrorHandling||{};
-DHolmes.ErrorHandling.createNotifyUrlErrorHandler: function(endPointUrl) {
+DHolmes.ErrorHandling.createNotifyUrlErrorHandler = function(endPointUrl) {
 	return function(message, url, lineNumber) {
 		var request = null;
 		if (window.ActiveXObject) { // IE
@@ -23,4 +23,4 @@ DHolmes.ErrorHandling.createNotifyUrlErrorHandler: function(endPointUrl) {
 		}
 		request.send(queryComps.join("&"));
 	};
-}
+};

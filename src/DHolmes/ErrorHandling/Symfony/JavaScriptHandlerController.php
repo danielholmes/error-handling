@@ -11,6 +11,6 @@ class JavaScriptHandlerController
     {
         throw new JavaScriptErrorException($request->query->get('message'),
                     $request->query->get('scriptUrl'), $request->query->get('lineNumber'),
-                    $request->query->get('cookie'), $request->query->get('url'));
+                    $request->query->get('url'));
     }
 }

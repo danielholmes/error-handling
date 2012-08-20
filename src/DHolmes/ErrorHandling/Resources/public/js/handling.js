@@ -27,7 +27,6 @@ DHolmes.ErrorHandling.createNotifyUrlErrorHandler = function(endPointUrl) {
             "message": message,
             "scriptUrl": url,
             "lineNumber": lineNumber,
-            "cookie": document.cookie,
             "url": document.URL,
             "noCache": (new Date())
         };

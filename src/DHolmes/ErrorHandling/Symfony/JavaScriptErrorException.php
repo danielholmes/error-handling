@@ -20,6 +20,6 @@ class JavaScriptErrorException extends \Exception
             'cookie' => $cookie,
             'url' => $url,
         );
-        parent::__construct(json_encode($messageComps));
+        parent::__construct(print_r($messageComps, true));
     }
 }

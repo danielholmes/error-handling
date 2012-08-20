@@ -1,0 +1,4 @@
+errorHandlingJavaScript:
+    pattern:  /index
+    defaults: { _controller: errorHandling.testController:indexAction }
+    requirements: { _method: GET }

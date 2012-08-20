@@ -27,7 +27,14 @@ class TestController
     public function indexAction()
     {
         $types = array('notice', 'warning', 'exception', 'fatal', 'error', 'logEmerg', 'logCrit');
-        $content = '<h3>Error Testing</h3>';
+        
+        $scriptContent = file_get_contents(__DIR__ . '/../Resources/js/handling.js');
+        $errorHandlerUrl = $this->urlGenerator->generate('errorHandlingJavaScript');
+        
+        $content = '<html><head>';
+        $content .= '<script type="text/javascript">' . $scriptContent . ' window.onerror = DHolmes.ErrorHandling.createNotifyUrlErrorHandler("' . $errorHandlerUrl . '");</script>';
+        $content .= '</head><body>';
+        $content .= '<h3>Error Testing</h3>';
         $content .= '<ul>';
         foreach ($types as $type)
         {
@@ -39,16 +46,15 @@ class TestController
                                 </form>', $url);
             $content .= '</li>';
         }
+        $content .= '<li><a href="javascript:unknownFunc();return false;">JavaScript Error</a></li>';
         $content .= '</ul>';
+        $content .= '</body</html>';
         return new Response($content);
     }
     
-    /** @return Response */
     public function exceptionAction()
     {
         throw new \Exception('Testing Exception');
-        
-        return new Response('Exception Test');
     }
 
     /** @return Response */
@@ -56,7 +62,7 @@ class TestController
     {
         $var->hello();
         
-        return new Response('Fatal Error Test');
+        return new Response('Fatal Error Test, this shouldn\'t show if handling works properly');
     }
 
     /** @return Response */
@@ -65,7 +71,7 @@ class TestController
         $var = null;
         $var->hello();
         
-        return new Response('Error Test');
+        return new Response('Error Test, this shouldn\'t show if handling works properly');
     }
 
     /** @return Response */
@@ -73,7 +79,7 @@ class TestController
     {
         strpos();
         
-        return new Response('Warning Test');
+        return new Response('Warning Test, this shouldn\'t show if handling works properly');
     }
 
     /** @return Response */
@@ -82,7 +88,7 @@ class TestController
         $arr = array();
         $var = $arr['unknown'];
         
-        return new Response('Notice Test');
+        return new Response('Notice Test, this shouldn\'t show if handling works properly');
     }
     
     /** @return Response */

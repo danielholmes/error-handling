@@ -28,7 +28,7 @@ class TestController
     {
         $types = array('notice', 'warning', 'exception', 'fatal', 'error', 'logEmerg', 'logCrit');
         
-        $scriptContent = file_get_contents(__DIR__ . '/../Resources/js/handling.js');
+        $scriptContent = file_get_contents(__DIR__ . '/../Resources/public/js/handling.js');
         $errorHandlerUrl = $this->urlGenerator->generate('errorHandlingJavaScript');
         
         $content = '<html><head>';

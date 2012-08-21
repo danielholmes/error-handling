@@ -28,7 +28,7 @@ DHolmes.ErrorHandling.createNotifyUrlErrorHandler = function(endPointUrl) {
             "scriptUrl": url,
             "lineNumber": lineNumber,
             "url": document.URL,
-            "noCache": (new Date())
+            "noCache": (new Date()).getTime()
         };
         var queryComps = new Array();
         for (var key in params) {

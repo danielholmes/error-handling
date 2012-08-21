@@ -23,6 +23,11 @@ errorTestFatal:
     defaults: { _controller: errorHandling.testController:fatalAction }
     requirements: { _method: GET|POST }
 
+errorTestFatalMemory:
+    pattern:  /fatal-memory
+    defaults: { _controller: errorHandling.testController:fatalMemoryAction }
+    requirements: { _method: GET|POST }
+
 errorTestError:
     pattern:  /error
     defaults: { _controller: errorHandling.testController:errorAction }

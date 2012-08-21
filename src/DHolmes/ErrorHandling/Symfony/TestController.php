@@ -26,7 +26,16 @@ class TestController
     /** @return Response */
     public function indexAction()
     {
-        $types = array('notice', 'warning', 'exception', 'fatal', 'error', 'logEmerg', 'logCrit');
+        $types = array(
+            'notice', 
+            'warning', 
+            'exception', 
+            'fatal', 
+            'fatalMemory', 
+            'error', 
+            'logEmerg', 
+            'logCrit'
+        );
         
         $scriptContent = file_get_contents(__DIR__ . '/../Resources/public/js/handling.js');
         $errorHandlerUrl = $this->urlGenerator->generate('errorHandlingJavaScript');
@@ -62,7 +71,19 @@ class TestController
     {
         $var->hello();
         
-        return new Response('Fatal Error Test, this shouldn\'t show if handling works properly');
+        return new Response('Fatal Error Test, this won\'t show if handling works properly');
+    }
+
+    /** @return Response */
+    public function fatalMemoryAction()
+    {
+        $holder = '';
+        while (true)
+        {
+            $holder .= str_repeat('0123456789', 9999999);
+        }
+        
+        return new Response('Fatal Memory Error Test, this won\'t show if handling works properly');
     }
 
     /** @return Response */

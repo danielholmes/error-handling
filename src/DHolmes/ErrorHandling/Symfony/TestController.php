@@ -5,6 +5,7 @@ namespace DHolmes\ErrorHandling\Symfony;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class TestController
 {
@@ -27,21 +28,31 @@ class TestController
     public function indexAction()
     {
         $types = array(
-            'notice', 
-            'warning', 
-            'exception', 
-            'fatal', 
-            'fatalMemory', 
-            'error', 
-            'logEmerg', 
+            'notice',
+            'warning',
+            'exception',
+            'fatal',
+            'fatalMemory',
+            'error',
+            'logEmerg',
             'logCrit'
         );
-        
         $scriptContent = file_get_contents(__DIR__ . '/../Resources/public/js/handling.js');
-        $errorHandlerUrl = $this->urlGenerator->generate('errorHandlingJavaScript');
-        
+        $errorHandlerUrl = null;
+        try
+        {
+            $errorHandlerUrl = $this->urlGenerator->generate('errorHandlingJavaScript');
+        }
+        catch (RouteNotFoundException $e)
+        {
+            // will check on error handler
+        }
+
         $content = '<html><head>';
-        $content .= '<script type="text/javascript">' . $scriptContent . ' window.onerror = DHolmes.ErrorHandling.createNotifyUrlErrorHandler("' . $errorHandlerUrl . '");</script>';
+        if ($errorHandlerUrl !== null)
+        {
+            $content .= '<script type="text/javascript">' . $scriptContent . ' window.onerror = DHolmes.ErrorHandling.createNotifyUrlErrorHandler("' . $errorHandlerUrl . '");</script>';
+        }
         $content .= '</head><body>';
         $content .= '<h3>Error Testing</h3>';
         $content .= '<ul>';
@@ -55,12 +66,15 @@ class TestController
                                 </form>', $url);
             $content .= '</li>';
         }
-        $content .= '<li><a href="javascript:testJSErrorHandling();return false;">JavaScript Error</a> (Warning, this setup can be quite different to your main site setup)</li>';
+        if ($errorHandlerUrl !== null)
+        {
+            $content .= '<li><a href="javascript:testJSErrorHandling();return false;">JavaScript Error</a> (Warning, this setup can be quite different to your main site setup)</li>';
+        }
         $content .= '</ul>';
         $content .= '</body</html>';
         return new Response($content);
     }
-    
+
     public function exceptionAction()
     {
         throw new \Exception('Testing Exception');
@@ -70,7 +84,7 @@ class TestController
     public function fatalAction()
     {
         $var->hello();
-        
+
         return new Response('Fatal Error Test, this won\'t show if handling works properly');
     }
 
